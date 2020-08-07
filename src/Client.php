@@ -34,6 +34,23 @@ class Client {
   }
   
   /**
+   * Helper function to check do we have an error or not
+   * if we have than return errorMessage and a code
+   * otherwise bool
+   */
+  private function hasError($data) {
+    $error = null;
+    $message = null;
+    if (!empty($data['error'])) {
+      return [
+        'error' => $data["statusCode"],
+        'message' => array_shift($data["message"]["message"]),
+      ];
+    }
+    return false;
+  }
+  
+  /**
    * Retrieve all webshops
    * @returns array - array of WebshopInterface type
    */
@@ -62,9 +79,13 @@ class Client {
   public function getWebshop($id) {
     try {
       $response = $this->client->request('GET', '/webshops/' . $id);
-      return Webshop::createFromArray(json_decode($response->getBody()->getContents(), true));
+      $data = json_decode($response->getBody()->getContents(), true);
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
+      return Webshop::createFromArray($data);
     } catch (ConnectException | RequestException $e) {
-      throw new \Exception ($e->getMessage());
+      throw new SmartVoucherException ($e->getMessage(), $e->getCode());
     }
   }
   
@@ -79,8 +100,14 @@ class Client {
         'website' => $webshop->getWebsite(),
         'email' => $webshop->getEmail(),
       ]);
+      
+      $data = json_decode($response->getBody()->getContents(), true);
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
+      $webshop->setId($data['id']);
     } catch (ConnectException | RequestException $e) {
-      throw new \Exception($e->getMessage());
+      throw new SmartVoucherException($e->getMessage(), $e->getCode());
     }
   }
   
@@ -98,10 +125,14 @@ class Client {
         'nonce' => $requester->getNonce(),
         'signature' => $requester->getSignature(),
       ]);
+      
+      $data = json_decode($response->getBody()->getContents(), true)
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
     } catch (ConnectException | RequestException $e) {
-      throw new \Exception($e->getMessage());
+      throw new SmartVoucherException($e->getMessage(), $e->getCode());
     }
-    
     return false;
   }
   
@@ -119,6 +150,12 @@ class Client {
         'nonce' => $requester->getNonce(),
         'signature' => $requester->getSignature(),
       ]);
+      
+      $data = json_decode($response->getBody()->getContents(), true)
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
+      
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }
@@ -139,6 +176,11 @@ class Client {
         'nonce' => $voucher->getNonce(),
         'signature' => $voucher->getSignature(),
       ]);
+      
+      $data = json_decode($response->getBody()->getContents(), true)
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }
@@ -157,6 +199,10 @@ class Client {
         'nonce' => $voucher->getNonce(),
         'signature' => $voucher->getSignature(),
       ]);
+      $data = json_decode($response->getBody()->getContents(), true)
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
       
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
@@ -174,6 +220,10 @@ class Client {
         'code' => $code,
       ]);
       
+      $data = json_decode($response->getBody()->getContents(), true)
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }

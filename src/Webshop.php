@@ -235,7 +235,10 @@ class Webshop implements WebshopInterface {
           $webshop->setNonce($value);
         break;
         case 'vouchersCount':
-          $webshop->setVouchers($value);
+          $webshop->setVouchersCount($value);
+        break;
+        case 'email':
+          $webshop->setEmail($value);
         break;
       }
     }
