@@ -13,11 +13,20 @@
     }
   ],
   "require": {
-     "guzzlehttp/guzzle": "^6.5"
+    "guzzlehttp/guzzle": "^6.5"
+  },
+  "require-dev": {
+    "php-http/client-integration-tests": "dev-phpunit8",
+    "phpunit/phpunit": "^8.5.5"
   },
   "autoload": {
     "psr-4": {
       "SmartVoucher\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SmartVoucher\\Tests\\": "tests/"
     }
   }
 }
