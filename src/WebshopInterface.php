@@ -2,48 +2,135 @@
 
 namespace SmartVoucher;
 
-use Partners;
-
+/**
+ * WebShop Interface
+ */
 interface WebshopInterface {
+ 
+ /**
+  * get webshop id
+  * @return int
+  */
+  public function getId();
 
- public function getId();
+  /**
+   * set webshop id
+   * @param int $id
+   */
+  public function setId(int $id);
+  
+  /**
+   * get wallet
+   * @return string
+   */
+  public function getWallet();
+  
+  /**
+   * set wallet
+   * @param string $wallet
+   */
+  public function setWallet(string $wallet);
 
- public function getWallet();
+  /**
+   * get webshop email
+   * @return string
+   */
+  public function getEmail();
+ 
+  /**
+   * set webshop email
+   * @param string $email
+   */
+  public function setEmail(string $email);
 
- public function getWebsite();
+  /**
+   * get webshop website
+   * @return string
+   */
+  public function getWebsite();
+  
+  /**
+   * set webshop website
+   * @param string $website
+   */
+  public function setWebsite(string $website = "");
 
- public function getPublishers();
+  /**
+   * get webshop nonce
+   * @return int
+   */
+  public function getNonce();
+ 
+  /**
+   * set webshop nonce
+   * @param int $nonce
+   */
+  public function setNonce(int $nonce); 
+  
+  /**
+   * get publishers
+   * @return array of WebshopInterface
+   */
+  public function getPublishers();
 
- public function getSubscribers();
+  /**
+   * set publishers
+   * @param array $publishers - publishers list
+   */
+  public function setPublishers(array $publishers = []);
 
+  /**
+   * get subsribers
+   * @return array of WebshopInterface
+   */
+  public function getSubscribers();
+  
+  /**
+   * set subsribers
+   * @param array of WebshopInterface
+   */
+  public function setSubscribers(array $subscribers = []);
+  
+  
+  /**
+   * get vouchers
+   * @return array of VoucherInterface
+   */
  public function getVouchers();
  
- public function getNonce();
-
- public function getVouchersCount();
- 
- public function setId(int $id);
- 
- public function setWebsite(string $website = "");
- 
- public function getEmail();
- 
- public function setEmail(string $email);
-
- public function setPublishers(array $publishers = []);
-
- public function setSubscribers(array $subscribers = []);
-
+  /**
+   * set vouchers
+   * @param array of VoucherInterface
+   */
  public function setVouchers(array $vouchers = []);
+ 
+ /**
+  * get vouchers count
+  * @return int 
+  */
+  public function getVouchersCount();
+  
+  /**
+   * set vouchers count
+   * @param int $count
+   */
+  public function setVouchersCount(int $count);
 
- public function setNonce(int $nonce);
+  /**
+   * add voucher
+   * @param VoucherInterface $voucher
+   */
+  public function addVoucher(VoucherInterface $voucher);
 
- public function setVouchersCount(int $count);
-
- public function addVoucher(VoucherInterface $voucher);
-
+  /**
+   * add Publisher
+   * @param WebshopInterface $publisher
+   */
  public function addPublisher(WebshopInterface $publisher);
 
- public function addSubscriber(WebshopInterface $subscriber);
- 
+  /**
+   * add Subscriber
+   * @param WebshopInterface $subscriber
+   */
+  public function addSubscriber(WebshopInterface $subscriber);
 }
