@@ -3,7 +3,7 @@
   "type": "library",
   "description": "Smart Voucher API Client",
   "homepage": "https://documenter.getpostman.com/view/6846240/T1DjjK9k?version=latest",
-  "license": "GPL",
+  "license": "MIT",
   "authors": [
     {
       "name": "Grigor Farishyan",
