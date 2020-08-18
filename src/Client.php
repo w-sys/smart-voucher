@@ -82,8 +82,9 @@ class Client {
       $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
+      } else {
+        return Webshop::createFromArray($data);
       }
-      return Webshop::createFromArray($data);
     } catch (ConnectException | RequestException $e) {
       throw new SmartVoucherException ($e->getMessage(), $e->getCode());
     }
@@ -95,10 +96,13 @@ class Client {
    */
   public function registerWebshop(WebshopInterface $webshop) {
     try {
-      $response = $this->client->request('POST', '/webshops', [
+      $post_data = [
         'wallet' => $webshop->getWallet(),
         'website' => $webshop->getWebsite(),
         'email' => $webshop->getEmail(),
+       ];
+      $response = $this->client->request('POST', '/webshops', [
+        'json' => $post_data
       ]);
       
       $data = json_decode($response->getBody()->getContents(), true);
