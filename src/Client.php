@@ -126,7 +126,7 @@ class Client {
         'signature' => $requester->getSignature(),
       ]);
       
-      $data = json_decode($response->getBody()->getContents(), true)
+      $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
@@ -151,7 +151,7 @@ class Client {
         'signature' => $requester->getSignature(),
       ]);
       
-      $data = json_decode($response->getBody()->getContents(), true)
+      $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
@@ -177,7 +177,7 @@ class Client {
         'signature' => $voucher->getSignature(),
       ]);
       
-      $data = json_decode($response->getBody()->getContents(), true)
+      $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
@@ -199,7 +199,7 @@ class Client {
         'nonce' => $voucher->getNonce(),
         'signature' => $voucher->getSignature(),
       ]);
-      $data = json_decode($response->getBody()->getContents(), true)
+      $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
@@ -220,7 +220,7 @@ class Client {
         'code' => $code,
       ]);
       
-      $data = json_decode($response->getBody()->getContents(), true)
+      $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
