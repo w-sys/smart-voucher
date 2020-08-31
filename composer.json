@@ -13,7 +13,9 @@
     }
   ],
   "require": {
-    "guzzlehttp/guzzle": "^6.5"
+    "guzzlehttp/guzzle": "^6.5",
+    "kornrunner/keccak": "^1.0",
+    "simplito/elliptic-php": "^1.0"
   },
   "require-dev": {
     "php-http/client-integration-tests": "dev-phpunit8",
