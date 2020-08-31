@@ -16,7 +16,7 @@ class Util {
    * return Signature string
    */
   public static function sign($message, $private_key) {
-    $hashed_message = $this->message_hash($message);
+    $hashed_message = self::message_hash($message);
     
     $hash = str_replace('0x', '', $hashed_message);
     $private_key = str_replace('0x', '', $private_key);
@@ -26,7 +26,7 @@ class Util {
     return ( $signature->toDER('hex') . '1c');
   }
   
-  private function message_hash($data) {
+  private static function message_hash($data) {
     $messageHex = str_replace('0x', '', $data);
     $messageBytes = pack("H*", $messageHex);
     $messageBuffer = unpack('H*', $messageBytes);
