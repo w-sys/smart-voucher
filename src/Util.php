@@ -50,7 +50,16 @@ class Util {
     return self::pad($l, "0x0" . substr($hex, 2));
   }
   
-  
+  protected static function natFromString($str) {
+      $bn = '0x';
+      if (substr($str, 0, 2) == '0x') {
+        $bn .= (new BN(substr($str, 2), 16))->toString("hex");
+      } else {
+        $bn .= (new BN($str, 10))->toString("hex");
+      }
+      
+      return ($bn === "0x0") ? "0x" : $bn;
+    }
   
   /**
    * encode signature according eth.account.sign
