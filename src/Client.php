@@ -198,7 +198,7 @@ class Client {
   public function createVoucher(VoucherInterface $voucher) {
     try {
       $response = $this->client->request('POST', '/vouchers', [
-        'webshopAddr' => $requester->getWebshopAddr(),
+        'webshopAddr' => $voucher->getWebshopAddr(),
         'amount' => $voucher->getAmount(),
         'nonce' => $voucher->getNonce(),
         'signature' => $voucher->getSignature(),
