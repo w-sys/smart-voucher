@@ -54,6 +54,11 @@ class Voucher implements VoucherInterface {
   protected $updated_at;
   
   /**
+   * voucher code
+   */
+  protected $voucherCode;
+  
+  /**
    * {@inheritdoc}
    */
   public function getId() {
@@ -189,6 +194,22 @@ class Voucher implements VoucherInterface {
   }
   
   /**
+   * {@inheritdoc}
+   */
+  public function getVoucherCode() {
+    return $this->voucherCode;
+  }
+  
+  /**
+   * {@inheritdoc}
+   */
+  public function setVoucherCode(string $code) {
+    $this->voucherCode = $code;
+    return $this;
+  }
+  
+  
+  /**
    * static function to create Voucher from array
    */
   public static function createFromArray(array $item) {
@@ -222,6 +243,9 @@ class Voucher implements VoucherInterface {
         break;
         case 'updated_at':
           $voucher->setUpdated($value);
+        break;
+        case 'voucherCode':
+          $voucher->setVoucherCode($value); 
         break;
       }
     }
