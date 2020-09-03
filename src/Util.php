@@ -4,6 +4,7 @@ namespace SmartVoucher;
 
 use kornrunner\Keccak;
 use kornrunner\Secp256k1;
+use BN\BN;
 
 class Util {
   
@@ -25,9 +26,9 @@ class Util {
     $s = gmp_strval($signature->getS(), 16);
     $recoveryParam = $signature->getRecoveryParam();
     
+    $signature = self::encodeSignature($recoveryParam, $r, $s);
     
-    
-    return '0x' . $signature->r->toString(16) . $signature->s->toString(16) . '1c';
+    return substr($signature, 0, 2) == '0x' ? $signature : ('0x' . $signature);
   }
   
   protected static function fromNat($val) {
@@ -56,6 +57,22 @@ class Util {
    */
   protected static function encodeSignature($v, $r, $s) {
     
+    $r_nat = self::fromNat("0x" . $r);
+    $s_nat = self::fromNat("0x" . $s);
+    
+    $combined_arr = array(
+      self::pad(32, $r_nat),
+      self::pad(32, $s_nat),
+      self::natFromString(self::fromNumber(27 + $v))
+    );
+    
+    $signature = '';
+    
+    for ($i = 0; $i < sizeof($combined_arr); $i++) {
+      $signature .= substr($combined_arr[$i], 2);
+    }
+    
+    return $signature;
   }
   
   /**
