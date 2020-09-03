@@ -211,6 +211,10 @@ class Client {
       $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
+      } else {
+        if ($data['ok'] == 1) {
+           $voucher->setVoucherCode($data['voucherCode']);
+        }
       }
       
     } catch (ConnectException | RequestException $e) {
