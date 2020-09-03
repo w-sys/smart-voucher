@@ -4,14 +4,11 @@ namespace SmartVoucher;
 
 use kornrunner\Keccak;
 use kornrunner\Secp256k1;
-use kornrunner\Serializer\HexSignatureSerializer;
-
-use Elliptic\EC;
-use Elliptic\EC\Signature;
 
 class Util {
   
   /**
+   * sign message based on eth.account.sign
    * Utility function to sign message with a private key
    * return Signature string
    */
@@ -21,9 +18,57 @@ class Util {
     $hash = str_replace('0x', '', $hashed_message);
     $private_key = str_replace('0x', '', $private_key);
     
-    $ec = new EC('secp256k1');
-    $signature = $ec->sign($hash, $private_key);
-    return ( $signature->toDER('hex') . '1c');
+    $secp256k1 = new Secp256k1();
+    $signature = $secp256k1->sign($hash, $private_key);
+    
+    $r = gmp_strval($signature->getR(), 16);
+    $s = gmp_strval($signature->getS(), 16);
+    $recoveryParam = $signature->getRecoveryParam();
+    
+    
+    
+    return '0x' . $signature->r->toString(16) . $signature->s->toString(16) . '1c';
+  }
+  
+  protected static function fromNat($val) {
+    if ($val == '0x0') {
+      return '0x';
+    }
+        
+    if (strlen($val) % 2 === 0) {
+      return $val;
+    }
+    
+    return '0x0' . substr($val, 2);
+  }
+  
+  protected static function pad($l, $hex) {
+    if (strlen($hex) === ($l * 2 + 2)) {
+      return $hex;
+    }
+    return self::pad($l, "0x0" . substr($hex, 2));
+  }
+  
+  
+  
+  /**
+   * encode signature according eth.account.sign
+   */
+  protected static function encodeSignature($v, $r, $s) {
+    
+  }
+  
+  /**
+   * convert number to hex
+   * @param $n - decimal number
+   */
+  protected static  function fromNumber($n) {
+    $hex = dechex($n);
+    if (strlen($hex) % 2 === 0) {
+      return '0x' . $hex;
+    }
+    
+    return '0x0' . $hex;
   }
   
   private static function message_hash($data) {

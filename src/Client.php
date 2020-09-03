@@ -196,12 +196,17 @@ class Client {
    * @return 
    */
   public function createVoucher(VoucherInterface $voucher) {
+    $data = [];
     try {
-      $response = $this->client->request('POST', '/vouchers', [
+      $request_params = [
         'webshopAddr' => $voucher->getWebshopAddr(),
         'amount' => $voucher->getAmount(),
-        'nonce' => $voucher->getNonce(),
+        'nonce' => sprintf('%s', $voucher->getNonce()),
         'signature' => $voucher->getSignature(),
+      ];
+      
+      $response = $this->client->request('POST', '/vouchers', [
+        'json' => $request_params
       ]);
       $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
@@ -211,6 +216,8 @@ class Client {
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }
+    
+    return $data;
   }
   
   /**
