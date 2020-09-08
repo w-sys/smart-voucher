@@ -231,8 +231,8 @@ class Client {
    */
   public function validateVoucherCode(string $code) {
     try {
-      $response = $this->client->request('GET', '/vouchers', [
-        'code' => $code,
+      $response = $this->client->request('GET', '/vouchers/validateCode', [
+        'query' => ['voucherCode' => $code],
       ]);
       
       $data = json_decode($response->getBody()->getContents(), true);
