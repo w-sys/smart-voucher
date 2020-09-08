@@ -238,7 +238,7 @@ class Client {
       
       return Voucher::createFromArray($data);
     } catch (ConnectException | RequestException $e) {
-       throw new SmartVoucherException($error['message'], $error["code"]);
+       throw new SmartVoucherException($e->getMessage(), $e->getCode());
     }
   }
   
