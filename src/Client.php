@@ -225,6 +225,24 @@ class Client {
   }
   
   /**
+   * get Voucher details by id
+   *
+   */
+  public function getVoucher($id) {
+    try {
+      $response = $this->client->request('GET', '/vouchers/' . $id);
+      $data = json_decode($response->getBody()->getContents(), true);
+      if (($error = $this->hasError($data))) {
+        throw new SmartVoucherException($error['message'], $error["code"]);
+      }
+      
+      return Voucher::createFromArray($data);
+    } catch (ConnectException | RequestException $e) {
+       throw new SmartVoucherException($error['message'], $error["code"]);
+    }
+  }
+  
+  /**
    * Validate Voucher code
    * @param string $code
    * @return bool
