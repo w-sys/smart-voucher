@@ -34,9 +34,9 @@ class Voucher implements VoucherInterface {
   protected $signature;
   
    /**
-    * voucher initalAmount
+    * voucher initialAmount
     */
-  protected $initalAmount;
+  protected $initialAmount;
   
    /**
     * voucher currentAmount
@@ -137,14 +137,14 @@ class Voucher implements VoucherInterface {
    * {@inheritdoc}
    */
   public function getInitialAmount() {
-    return $this->initalAmount;
+    return $this->initialAmount;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setInitialAmount(float $amount) {
-    $this->initalAmount = $amount;
+    $this->initialAmount = $amount;
     return $this;
   }
 
@@ -233,7 +233,7 @@ class Voucher implements VoucherInterface {
         case 'signature':
           $voucher->setSignature($value);
         break;
-        case 'initalAmount':
+        case 'initialAmount':
           $voucher->setInitialAmount($value);
         case 'currentAmount':
           $voucher->setCurrentAmount($value);
