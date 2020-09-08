@@ -257,6 +257,7 @@ class Client {
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
+      return $data['voucherId'];
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }
