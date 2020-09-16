@@ -124,16 +124,17 @@ class Client {
   public function addPartner(WebshopInterface $requester, WebshopInterface $requestee) {
     try {
       $response = $this->client->request('POST', '/webshops/addPartner', [
-        'webshopAddr' => $requester->getWallet(),
+        'json' => ['webshopAddr' => $requester->getWallet(),
         'partnerAddr' => $requestee->getWallet(),
         'nonce' => $requester->getNonce(),
         'signature' => $requester->getSignature(),
-      ]);
+      ]]);
       
       $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
+      return $data;
     } catch (ConnectException | RequestException $e) {
       throw new SmartVoucherException($e->getMessage(), $e->getCode());
     }
@@ -149,17 +150,17 @@ class Client {
   public function removePartner(WebshopInterface $requester, WebshopInterface $requestee) {
     try {
       $response = $this->client->request('POST', '/webshops/removePartner', [
-        'webshopAddr' => $requester->getWallet(),
+        'json' => ['webshopAddr' => $requester->getWallet(),
         'partnerAddr' => $requestee->getWallet(),
         'nonce' => $requester->getNonce(),
         'signature' => $requester->getSignature(),
-      ]);
+      ]]);
       
       $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
-      
+      return $data;
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }
