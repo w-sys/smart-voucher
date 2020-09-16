@@ -117,14 +117,14 @@ class Client {
   
   /**
    * Add Partner
-   * @param WebshopInterface $requester - webshop that want to add partner
+   * @param PartnerRequestInterface $requester - webshop that want to add partner
    * @param string $requestee - webshop to add as partner
    * @return bool
    */
-  public function addPartner(WebshopInterface $requester, string $requestee_wallet) {
+  public function addPartner(PartnerRequestInterface $requester, string $requestee_wallet) {
     try {
       $response = $this->client->request('POST', '/webshops/addPartner', [
-        'json' => ['webshopAddr' => $requester->getWallet(),
+        'json' => ['webshopAddr' => $requester->getWebshopAddr(),
         'partnerAddr' => $requestee_wallet,
         'nonce' => $requester->getNonce(),
         'signature' => $requester->getSignature(),
@@ -143,14 +143,14 @@ class Client {
   
   /**
    * Remove Partner
-   * @param WebshopInterface $requester - webshop that want to remove partner
+   * @param PartnerRequestInterface $requester - webshop that want to remove partner
    * @param string $requestee - Partner wallet that will be removed
    * @return bool
    */
-  public function removePartner(WebshopInterface $requester, string $requestee_wallet) {
+  public function removePartner(PartnerRequestInterface $requester, string $requestee_wallet) {
     try {
       $response = $this->client->request('POST', '/webshops/removePartner', [
-        'json' => ['webshopAddr' => $requester->getWallet(),
+        'json' => ['webshopAddr' => $requester->getWebshopAddr(),
         'partnerAddr' => $requestee_wallet,
         'nonce' => $requester->getNonce(),
         'signature' => $requester->getSignature(),
