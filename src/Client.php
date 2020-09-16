@@ -174,17 +174,19 @@ class Client {
   public function redeemVoucher(RedeemVoucherInterface $voucher) {
     try {
       $response = $this->client->request('POST', '/vouchers/redeem', [
-        'webshopAddr' => $requester->getWebshopAddr(),
+        'json' => ['webshopAddr' => $voucher->getWebshopAddr(),
         'amount' => $voucher->getAmount(),
         'voucherId' => $voucher->getId(),
         'nonce' => $voucher->getNonce(),
         'signature' => $voucher->getSignature(),
-      ]);
+      ]]);
       
       $data = json_decode($response->getBody()->getContents(), true);
       if (($error = $this->hasError($data))) {
         throw new SmartVoucherException($error['message'], $error["code"]);
       }
+      
+      return $data;
     } catch (ConnectException | RequestException $e) {
       throw new \Exception($e->getMessage());
     }
